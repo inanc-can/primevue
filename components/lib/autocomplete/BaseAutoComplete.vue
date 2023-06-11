@@ -70,6 +70,7 @@ const styles = `
     display: inline-flex;
     align-items: center;
     flex: 0 0 auto;
+    max-width: 100%;
 }
 
 .p-autocomplete-token-icon {
@@ -148,7 +149,7 @@ const classes = {
     hiddenSelectedMessage: 'p-hidden-accessible'
 };
 
-const { load: loadStyle, unload: unloadStyle } = useStyle(styles, { id: 'primevue_autocomplete_style', manual: true });
+const { load: loadStyle } = useStyle(styles, { id: 'primevue_autocomplete_style', manual: true });
 
 export default {
     name: 'BaseAutoComplete',
@@ -312,15 +313,22 @@ export default {
     },
     css: {
         classes,
-        inlineStyles
+        inlineStyles,
+        loadStyle
     },
-    watch: {
-        isUnstyled: {
-            immediate: true,
-            handler(newValue) {
-                !newValue && loadStyle();
-            }
-        }
+    provide() {
+        return {
+            $parentInstance: this
+        };
     }
 };
 </script>
+
+<style>
+.p-icon {
+    min-width: 1rem;
+    cursor: pointer;
+    margin-left: 0.25rem;
+    vertical-align: middle;
+}
+</style>
